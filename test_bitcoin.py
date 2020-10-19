@@ -5,6 +5,7 @@ import bitcoin
 
 
 class TestBitcoins(TestCase):
+    bitcoins = 100
     exchange_rate = 11763.1797
     fake_response = {
         "time": {
@@ -39,7 +40,7 @@ class TestBitcoins(TestCase):
         }
     }
 
-    @patch("requests.Response.json", return_value=fake_response)
+    @patch("bitcoin.get_exchange_rate", side_effect=[fake_response])
     def test_get_exchange_rate(self, mock_service_call):
         value = bitcoin.get_exchange_rate()
         self.assertEqual(value, self.fake_response)
@@ -50,21 +51,19 @@ class TestBitcoins(TestCase):
 
     @patch("builtins.input", side_effect=['f', '20'])
     def test_get_users_bitcoins(self, mock_input):
-        bitcoins = bitcoin.get_users_bitcoins()
-        self.assertEqual(bitcoins, 20.0)
+        users_bitcoins = bitcoin.get_users_bitcoins()
+        self.assertEqual(users_bitcoins, 20.0)
 
     def test_calculate_bitcoins_in_dollars(self):
-        bitcoins = 100
         value_in_dollars = bitcoin.calculate_bitcoins_in_dollars(
-            bitcoins, self.exchange_rate)
-        self.assertEqual(value_in_dollars, bitcoins * self.exchange_rate)
+            self.bitcoins, self.exchange_rate)
+        self.assertEqual(value_in_dollars, self.bitcoins * self.exchange_rate)
 
     def test_format_exchange_statement(self):
-        bitcoins = 100
         value_in_dollars = 1333.333
         correct_statement = "$100 Bitcoin is equivelent to $1333.333 in dollars"
         formatted_statement = bitcoin.format_exchange_statement(
-            bitcoins, value_in_dollars)
+            self.bitcoins, value_in_dollars)
         self.assertEqual(correct_statement, formatted_statement)
 
 

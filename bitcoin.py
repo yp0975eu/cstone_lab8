@@ -2,8 +2,7 @@ import requests
 
 def get_exchange_rate():
     url = "https://api.coindesk.com/v1/bpi/currentprice.json"
-    response =  requests.get(url)
-    return response.json()
+    return requests.get(url).json()
 
 def get_dollar_rate(data):
     return data["bpi"]["USD"]["rate_float"]
