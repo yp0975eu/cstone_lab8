@@ -2,14 +2,19 @@ import requests
 
 def get_exchange_rate():
     url = "https://api.coindesk.com/v1/bpi/currentprice.json"
-    response = requests.get(url)
+    response =  requests.get(url)
     return response.json()
 
 def get_dollar_rate(data):
     return data["bpi"]["USD"]["rate_float"]
 
 def get_users_bitcoins():
-    return float(input("Enter number of Bitcoins: "))
+    while True:
+        try:
+            bitcoins = float(input("Enter number of Bitcoins: "))
+            return bitcoins
+        except ValueError:
+            print('please enter a number')
 
 def calculate_bitcoins_in_dollars(bitcoins, exchange_rate):
     return bitcoins * exchange_rate
