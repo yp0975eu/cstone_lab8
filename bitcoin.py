@@ -21,9 +21,10 @@ def calculate_bitcoins_in_dollars(bitcoins, exchange_rate):
 def format_exchange_statement(bitcoin, bitcoin_value_in_dollars):
     return f"${bitcoin} Bitcoin is equivelent to ${bitcoin_value_in_dollars} in dollars"
 
-response = get_exchange_rate()
-exchange_rate = get_dollar_rate(response)
-user_bitcoins = get_users_bitcoins()
-value_in_dollars = calculate_bitcoins_in_dollars(user_bitcoins, exchange_rate)
-exchange_statement = format_exchange_statement(user_bitcoins, value_in_dollars)
-print(exchange_statement)
+if __name__ == "__main__":
+    response = get_exchange_rate()
+    exchange_rate = get_dollar_rate(response)
+    user_bitcoins = get_users_bitcoins()
+    value_in_dollars = calculate_bitcoins_in_dollars(user_bitcoins, exchange_rate)
+    exchange_statement = format_exchange_statement(user_bitcoins, value_in_dollars)
+    print(exchange_statement)
